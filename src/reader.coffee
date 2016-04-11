@@ -14,6 +14,9 @@
 #   hubot rss add #url - Add RSS Feed
 #   hubot rss remove #url - Removes RSS Feed
 #   hubot rss list - Displays all RSS Feeds
+#
+# TODO:
+# Allow multiple roomids instead of hardcoded
 
 # Send to room id.
 roomid = "d934705e-bd1f-45d1-8721-102342b89d63"
