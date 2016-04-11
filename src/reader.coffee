@@ -153,7 +153,7 @@ module.exports = (robot) ->
     robot.hear /RSS HELP/i, (msg) ->
         # RSS reader help.
         response.send "
-        This script fetches a RSS url regularly (5 minute interval).\n
+        This script fetches a RSS url regularly (15 second interval).\n
         [Usage]\n
           # Add URL to the RSS list.\n
           > rss add {RSS URL}\n
@@ -164,7 +164,7 @@ module.exports = (robot) ->
         "
 
     # Initialize cron.
-    new cron("*/5 * * * *", =>
+    new cron("*/15 * * * * *", =>
         urls = robot.brain.data["#{roomid}_RSSReader"]
         for url in urls
             readRSS url, (entry) ->
