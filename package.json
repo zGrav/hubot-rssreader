@@ -1,0 +1,24 @@
+{
+  "name": "hubot-rssreader",
+  "version": "0.0.1",
+  "description": "HUBOT RSS Reader/Parser",
+  "main": "index.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/zGrav/hubot-rssreader.git"
+  },
+  "keywords": [
+    "HUBOT",
+    "RSS",
+    "Reader",
+    "Parser"
+  ],
+  "author": "David Silva <zgrav@go.su>",
+  "bugs": {
+    "url": "https://github.com/zGrav/hubot-rssreader/issues"
+  },
+  "homepage": "https://github.com/zGrav/hubot-rssreader#readme"
+}
