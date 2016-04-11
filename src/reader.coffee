@@ -17,6 +17,7 @@
 #
 # TODO:
 # Allow multiple roomids instead of hardcoded
+# Save Brain data (because this isn't Redis/Slack)
 
 # Send to room id.
 roomid = "d934705e-bd1f-45d1-8721-102342b89d63"
