@@ -170,9 +170,10 @@ module.exports = (robot) ->
     # Initialize cron.
     new cron("*/15 * * * * *", =>
         urls = robot.brain.data["#{roomid}_RSSReader"]
-        for url in urls
-            readRSS url, (entry) ->
-                response.send "RSS Reader\n =====================================================\n
-                #{entry.title} #{entry.link}
-                "
+        if urls
+            for url in urls
+                readRSS url, (entry) ->
+                    response.send "RSS Reader\n =====================================================\n
+                    #{entry.title} #{entry.link}
+                    "
     ).start()
