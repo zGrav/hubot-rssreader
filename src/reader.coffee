@@ -16,11 +16,11 @@
 #   hubot rss list - Displays all RSS Feeds
 #
 # TODO:
-# Allow multiple roomids instead of hardcoded
+# Allow multiple roomids instead of hardcoded single env var
 # Save Brain data (because this isn't Redis/Slack)
 
 # Send to room id.
-roomid = "d934705e-bd1f-45d1-8721-102342b89d63"
+roomid = process.env.GOSU_RSS_CHANNELID
 
 cron = require('cron').CronJob #Task Scheduling
 feedparser = require 'feedparser' #RSS Parser
