@@ -15,9 +15,6 @@
 #   hubot rss remove #url - Removes RSS Feed
 #   hubot rss list - Displays all RSS Feeds
 #
-# TODO:
-# Allow multiple roomids instead of hardcoded single env var
-# Save Brain data (because this isn't Redis/Slack)
 
 # Send to room id.
 roomid = process.env.GOSU_RSS_CHANNELID
@@ -177,3 +174,6 @@ module.exports = (robot) ->
                     #{entry.title} #{entry.link}
                     "
     ).start()
+    
+# TODO:
+# Allow multiple roomids instead of hardcoded single env var
