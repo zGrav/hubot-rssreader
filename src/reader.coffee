@@ -5,6 +5,7 @@
 #   Cron
 #   feedparser
 #   request
+#   hubot-auth
 #
 # Configuration:
 #   Hardcoded roomID
@@ -122,47 +123,59 @@ module.exports = (robot) ->
     response = new robot.Response(robot, {room: roomid})
     robot.hear /RSS ADD (.*)/i, (msg) ->
         # Checking the addtion of RSS url.
-        addRSS msg.match[1], (url) ->
-            # Request RSS infomation.
-            infoRSS url, (url, meta) ->
+        if robot.auth.hasRole(msg.envelope.user,'admin')
+            addRSS msg.match[1], (url) ->
+                # Request RSS infomation.
+                infoRSS url, (url, meta) ->
+                    response.send "
+                    ================================================================\n
+                    Room ID: #{roomid}\n
+                    Title: #{meta.title}\n
+                    Description: #{meta.description}\n
+                    Link: #{meta.link}\n
+                    RSS: #{url}
+                    "
+        else
+            response.send "Sorry, but you don't have permission to run this command."
+
+    robot.hear /RSS LIST/i, (msg) ->
+        # Show a list of RSS.
+        if robot.auth.hasRole(msg.envelope.user,'admin')
+            listRSS (url, meta) ->
                 response.send "
                 ================================================================\n
                 Room ID: #{roomid}\n
                 Title: #{meta.title}\n
-                Description: #{meta.description}\n
+                Description #{meta.description}\n
                 Link: #{meta.link}\n
                 RSS: #{url}
                 "
-
-    robot.hear /RSS LIST/i, (msg) ->
-        # Show a list of RSS.
-        listRSS (url, meta) ->
-            response.send "
-            ================================================================\n
-            Room ID: #{roomid}\n
-            Title: #{meta.title}\n
-            Description #{meta.description}\n
-            Link: #{meta.link}\n
-            RSS: #{url}
-            "
+        else
+            response.send "Sorry, but you don't have permission to run this command."
 
     robot.hear /RSS REMOVE (.*)/i, (msg) ->
         # Remove from the list a URL.
-        removeRSS msg.match[1], (url) ->
-            response.send "Removed #{url} from #{roomid}"
+        if robot.auth.hasRole(msg.envelope.user,'admin')
+            removeRSS msg.match[1], (url) ->
+                response.send "Removed #{url} from #{roomid}"
+        else
+            response.send "Sorry, but you don't have permission to run this command."
 
     robot.hear /RSS HELP/i, (msg) ->
         # RSS reader help.
-        response.send "
-        This script fetches a RSS url regularly (15 second interval).\n
-        [Usage]\n
-          # Add URL to the RSS list.\n
-          > rss add {RSS URL}\n
-          # Remove URL from RSS list.\n
-          > rss remove {RSS URL}\n
-          # Show RSS list.\n
-          > rss list\n
-        "
+        if robot.auth.hasRole(msg.envelope.user,'admin')
+            response.send "
+            This script fetches a RSS url regularly (15 second interval).\n
+            [Usage]\n
+            # Add URL to the RSS list.\n
+            > rss add {RSS URL}\n
+            # Remove URL from RSS list.\n
+            > rss remove {RSS URL}\n
+            # Show RSS list.\n
+            > rss list\n
+            "
+        else
+            response.send "Sorry, but you don't have permission to run this command."
 
     # Initialize cron.
     new cron("*/15 * * * * *", =>
@@ -174,6 +187,6 @@ module.exports = (robot) ->
                     #{entry.title} #{entry.link}
                     "
     ).start()
-    
+
 # TODO:
 # Allow multiple roomids instead of hardcoded single env var
