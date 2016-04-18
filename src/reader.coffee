@@ -8,7 +8,7 @@
 #   hubot-auth
 #
 # Configuration:
-#   Hardcoded roomID
+#   None
 #
 # Commands:
 #   hubot rss help - Displays RSS help menu
@@ -17,8 +17,7 @@
 #   hubot rss list - Displays all RSS Feeds
 #
 
-# Send to room id.
-roomid = process.env.GOSU_RSS_CHANNELID
+roomid = null
 
 cron = require('cron').CronJob #Task Scheduling
 feedparser = require 'feedparser' #RSS Parser
@@ -119,9 +118,13 @@ module.exports = (robot) ->
                 robot.brain.save()
             )
 
-    # Initialize hubot response for send message.
-    response = new robot.Response(robot, {room: roomid})
+    response = null
+
     robot.hear /RSS ADD (.*)/i, (msg) ->
+        # Initialize hubot response for send message.
+        roomid = msg.envelope.room
+        response = new robot.Response(robot, {room: roomid})
+
         # Checking the addtion of RSS url.
         if robot.auth.hasRole(msg.envelope.user,'admin')
             addRSS msg.match[1], (url) ->
@@ -139,6 +142,10 @@ module.exports = (robot) ->
             response.send "Sorry, but you don't have permission to run this command."
 
     robot.hear /RSS LIST/i, (msg) ->
+        # Initialize hubot response for send message.
+        roomid = msg.envelope.room
+        response = new robot.Response(robot, {room: roomid})
+
         # Show a list of RSS.
         if robot.auth.hasRole(msg.envelope.user,'admin')
             listRSS (url, meta) ->
@@ -154,6 +161,10 @@ module.exports = (robot) ->
             response.send "Sorry, but you don't have permission to run this command."
 
     robot.hear /RSS REMOVE (.*)/i, (msg) ->
+        # Initialize hubot response for send message.
+        roomid = msg.envelope.room
+        response = new robot.Response(robot, {room: roomid})
+
         # Remove from the list a URL.
         if robot.auth.hasRole(msg.envelope.user,'admin')
             removeRSS msg.match[1], (url) ->
@@ -162,6 +173,10 @@ module.exports = (robot) ->
             response.send "Sorry, but you don't have permission to run this command."
 
     robot.hear /RSS HELP/i, (msg) ->
+        # Initialize hubot response for send message.
+        roomid = msg.envelope.room
+        response = new robot.Response(robot, {room: roomid})
+
         # RSS reader help.
         if robot.auth.hasRole(msg.envelope.user,'admin')
             response.send "
@@ -187,6 +202,3 @@ module.exports = (robot) ->
                     #{entry.title} #{entry.link}
                     "
     ).start()
-
-# TODO:
-# Allow multiple roomids instead of hardcoded single env var
