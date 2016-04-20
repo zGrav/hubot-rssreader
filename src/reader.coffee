@@ -126,7 +126,7 @@ module.exports = (robot) ->
         response = new robot.Response(robot, {room: roomid})
 
         # Checking the addtion of RSS url.
-        if robot.auth.hasRole(msg.envelope.user,'admin')
+        if robot.auth.hasRole(msg.envelope.user,'admin') or robot.auth.hasRole(msg.envelope.user,'rss')
             addRSS msg.match[1], (url) ->
                 # Request RSS infomation.
                 infoRSS url, (url, meta) ->
@@ -147,7 +147,7 @@ module.exports = (robot) ->
         response = new robot.Response(robot, {room: roomid})
 
         # Show a list of RSS.
-        if robot.auth.hasRole(msg.envelope.user,'admin')
+        if robot.auth.hasRole(msg.envelope.user,'admin') or robot.auth.hasRole(msg.envelope.user,'rss')
             listRSS (url, meta) ->
                 response.send "
                 ================================================================\n
@@ -166,7 +166,7 @@ module.exports = (robot) ->
         response = new robot.Response(robot, {room: roomid})
 
         # Remove from the list a URL.
-        if robot.auth.hasRole(msg.envelope.user,'admin')
+        if robot.auth.hasRole(msg.envelope.user,'admin') or robot.auth.hasRole(msg.envelope.user,'rss')
             removeRSS msg.match[1], (url) ->
                 response.send "Removed #{url} from #{roomid}"
         else
@@ -178,7 +178,7 @@ module.exports = (robot) ->
         response = new robot.Response(robot, {room: roomid})
 
         # RSS reader help.
-        if robot.auth.hasRole(msg.envelope.user,'admin')
+        if robot.auth.hasRole(msg.envelope.user,'admin') or robot.auth.hasRole(msg.envelope.user,'rss')
             response.send "
             This script fetches a RSS url regularly (15 second interval).\n
             [Usage]\n
