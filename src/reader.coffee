@@ -12,8 +12,8 @@
 #
 # Commands:
 #   hubot rss help - Displays RSS help menu
-#   hubot rss add #url - Add RSS Feed
-#   hubot rss remove #url - Removes RSS Feed
+#   hubot rss add <url> - Add RSS Feed
+#   hubot rss remove <url> - Removes RSS Feed
 #   hubot rss list - Displays all RSS Feeds
 #
 
